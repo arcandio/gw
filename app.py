@@ -26,9 +26,6 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		self.openFilePath = ''
 		# set up text processing
 		self.text = text.GwParse(self)
-		# cannot use below, causes recursion, use key press instead
-		#self.textEdit.textChanged.connect(self.HtmlEdited)
-		#self.mainButton.clicked.connect(self.HtmlEdited)
 
 	def OpenProjectDialog(self):
 		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', self.config.LastProject)
@@ -55,14 +52,6 @@ class Wiki(QMainWindow, Ui_MainWindow):
 			c = f.read()
 			self.text.md = c
 			self.text.mh()
-
-	def HtmlEdited(self):
-		cur = self.textEdit.textCursor()
-		self.textEdit.blockSignals(True)
-		self.text.hm()
-		self.text.mh()
-		self.textEdit.blockSignals(False)
-		self.textEdit.setTextCursor(cur)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
