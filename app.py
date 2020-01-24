@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets, QtCore, uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileSystemModel, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys, os
 # custom modules
-import config, text
+import GwConfig, GwText, GwData
 
 # setup main window ui from designer file
 uifile = "test.ui"
@@ -14,44 +14,19 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 		self.setWindowTitle('GAMEWIKI')
-		self.config = config.GwConfig(self)
+		# set up configuration
+		self.config = GwConfig.GwConfig(self)
 		self.config.Load()
+		self.data = GwData.GwData(self)
 		# connect buttons to functions
-		self.actionOpen_Project.triggered.connect(self.OpenProjectDialog)
-		#self.mainButton.clicked.connect(self.Press)
+		self.actionOpen_Project.triggered.connect(self.data.OpenProjectDialog)
 		# initialize tree
-		self.SetProjectPath(self.config.LastProject)
-		self.treeView_2.clicked.connect(self.OpenMarkdownFile)
+		self.data.SetProjectPath(self.config.LastProject)
+		self.treeView_2.clicked.connect(self.data.OpenMarkdownFile)
 		# set up a var for our last open path
 		self.openFilePath = ''
 		# set up text processing
-		self.text = text.GwParse(self)
-
-	def OpenProjectDialog(self):
-		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', self.config.LastProject)
-		if fname is not '':
-			self.OpenProjectPath(fname)
-
-	def OpenProjectPath(self, projectPath):
-		self.SetProjectPath(projectPath)
-		self.setWindowTitle('GAMEWIKI - ' + projectPath)
-		self.config.Save(projectPath)
-
-	def SetProjectPath(self, projectPath):
-		self.model = QFileSystemModel()
-		self.model.setRootPath(projectPath)
-		print('treeview model root path: ', self.model.rootPath())
-		self.treeView_2.setModel(self.model)
-		self.treeView_2.setRootIndex(self.model.index(projectPath))
-
-	def OpenMarkdownFile(self, signal):
-		self.openFilePath=self.model.filePath(signal)
-
-		print('open markdown file: ', self.openFilePath)
-		with open(self.openFilePath) as f:
-			c = f.read()
-			self.text.md = c
-			self.text.mh()
+		self.text = GwText.GwParse(self)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

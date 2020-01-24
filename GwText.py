@@ -1,6 +1,8 @@
 import markdown
 import html2markdown
 
+# https://stackoverflow.com/questions/59903476/how-to-implement-live-markdown-to-html-in-pyqt-qtextedit
+
 class GwParse():
 	def __init__(self, app):
 		self.app = app
