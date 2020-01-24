@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileSystemModel, QFileDialog
-import sys, os
+import sys, os, config
 
 uifile = "test.ui"
 
@@ -12,27 +12,31 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 		self.setWindowTitle('GAMEWIKI')
+		self.config = config.GwConfig(self)
+		self.config.Load()
 		# connect buttons to functions
 		self.actionOpen_Project.triggered.connect(self.OpenProjectDialog)
 		self.mainButton.clicked.connect(self.Press)
-		self.textEdit.setText("hi")
 		# initialize tree
-		self.openFilePath = ''
-		self.SetProjectPath(os.getcwd())
+		self.SetProjectPath(self.config.LastProject)
 		self.treeView_2.clicked.connect(self.OpenMarkdownFile)
+		# set up a var for our last open path
+		self.openFilePath = ''
 
 	def OpenProjectDialog(self):
-		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', os.getcwd())
-		self.OpenProjectPath(fname)
+		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', self.config.LastProject)
+		if fname is not '':
+			self.OpenProjectPath(fname)
 
 	def OpenProjectPath(self, projectPath):
 		self.SetProjectPath(projectPath)
-		self.setWindowTitle('GAMEWIKI - '+projectPath)
+		self.setWindowTitle('GAMEWIKI - ' + projectPath)
+		self.config.Save(projectPath)
 
 	def SetProjectPath(self, projectPath):
 		self.model = QFileSystemModel()
 		self.model.setRootPath(projectPath)
-		print(self.model.rootPath())
+		print('treeview model root path: ', self.model.rootPath())
 		self.treeView_2.setModel(self.model)
 		self.treeView_2.setRootIndex(self.model.index(projectPath))
 
