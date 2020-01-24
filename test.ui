@@ -32,7 +32,7 @@
         <item>
          <widget class="QPushButton" name="mainButton">
           <property name="text">
-           <string>PushButton</string>
+           <string>Breadcrumbs</string>
           </property>
          </widget>
         </item>
@@ -45,9 +45,23 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>Tags</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Backlinks</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pushButton_2">
             <property name="text">
-             <string>PushButton</string>
+             <string>Children</string>
             </property>
            </widget>
           </item>

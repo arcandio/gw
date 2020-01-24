@@ -24,12 +24,11 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		self.treeView_2.clicked.connect(self.OpenMarkdownFile)
 		# set up a var for our last open path
 		self.openFilePath = ''
-		
-		# experimenting with text processing
-		doc = self.textEdit.document()
-		cur = self.textEdit.textCursor()
-		print('text edit:', doc, cur)
+		# set up text processing
 		self.text = text.GwParse(self)
+		# cannot use below, causes recursion, use key press instead
+		#self.textEdit.textChanged.connect(self.HtmlEdited)
+		self.mainButton.clicked.connect(self.HtmlEdited)
 
 	def OpenProjectDialog(self):
 		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', self.config.LastProject)
@@ -54,8 +53,12 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		print('open markdown file: ', self.openFilePath)
 		with open(self.openFilePath) as f:
 			c = f.read()
-			self.textEdit.setText(c)
-			self.text.Update()
+			self.text.md = c
+			self.text.mh()
+
+	def HtmlEdited(self):
+		self.text.hm()
+		self.text.mh()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

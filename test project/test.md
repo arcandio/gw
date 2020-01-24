@@ -2,6 +2,7 @@
 
 * bullet
 * bullet
+* [bill](characters/bill.md)
 
 ---
 
