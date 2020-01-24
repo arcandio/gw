@@ -1,9 +1,11 @@
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileSystemModel, QFileDialog
-import sys, os, config
+import sys, os
+# custom modules
+import config, text
 
+# setup main window ui from designer file
 uifile = "test.ui"
-
 Ui_MainWindow, QtBaseClass = uic.loadUiType(uifile)
 
 class Wiki(QMainWindow, Ui_MainWindow):
@@ -16,12 +18,18 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		self.config.Load()
 		# connect buttons to functions
 		self.actionOpen_Project.triggered.connect(self.OpenProjectDialog)
-		self.mainButton.clicked.connect(self.Press)
+		#self.mainButton.clicked.connect(self.Press)
 		# initialize tree
 		self.SetProjectPath(self.config.LastProject)
 		self.treeView_2.clicked.connect(self.OpenMarkdownFile)
 		# set up a var for our last open path
 		self.openFilePath = ''
+		
+		# experimenting with text processing
+		doc = self.textEdit.document()
+		cur = self.textEdit.textCursor()
+		print('text edit:', doc, cur)
+		self.text = text.GwParse(self)
 
 	def OpenProjectDialog(self):
 		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', self.config.LastProject)
@@ -43,15 +51,11 @@ class Wiki(QMainWindow, Ui_MainWindow):
 	def OpenMarkdownFile(self, signal):
 		self.openFilePath=self.model.filePath(signal)
 
-		print(self.openFilePath)
+		print('open markdown file: ', self.openFilePath)
 		with open(self.openFilePath) as f:
 			c = f.read()
 			self.textEdit.setText(c)
-
-	def Press (self):
-		s = "random text"
-		print(s)
-		self.textEdit.setText(t + s)
+			self.text.Update()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
