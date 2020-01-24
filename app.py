@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileSystemModel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileSystemModel, QFileDialog
 import sys, os
 
 uifile = "test.ui"
@@ -10,14 +10,24 @@ class Wiki(QMainWindow, Ui_MainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self)
 		Ui_MainWindow.__init__(self)
-		self.title = 'GameWiki'
 		self.setupUi(self)
+		self.setWindowTitle('GAMEWIKI')
 		# connect buttons to functions
+		self.actionOpen_Project.triggered.connect(self.OpenProjectDialog)
 		self.mainButton.clicked.connect(self.Press)
 		self.textEdit.setText("hi")
 		# initialize tree
+		self.openFilePath = ''
 		self.SetProjectPath(os.getcwd())
 		self.treeView_2.clicked.connect(self.OpenMarkdownFile)
+
+	def OpenProjectDialog(self):
+		fname = QFileDialog.getExistingDirectory(self, 'Open Project Folder', os.getcwd())
+		self.OpenProjectPath(fname)
+
+	def OpenProjectPath(self, projectPath):
+		self.SetProjectPath(projectPath)
+		self.setWindowTitle('GAMEWIKI - '+projectPath)
 
 	def SetProjectPath(self, projectPath):
 		self.model = QFileSystemModel()
@@ -27,9 +37,10 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		self.treeView_2.setRootIndex(self.model.index(projectPath))
 
 	def OpenMarkdownFile(self, signal):
-		file_path=self.model.filePath(signal)
-		print(file_path)
-		with open(file_path) as f:
+		self.openFilePath=self.model.filePath(signal)
+
+		print(self.openFilePath)
+		with open(self.openFilePath) as f:
 			c = f.read()
 			self.textEdit.setText(c)
 
