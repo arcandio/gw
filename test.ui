@@ -105,20 +105,52 @@
     <property name="title">
      <string>View</string>
     </property>
-    <widget class="QMenu" name="menuFont">
-     <property name="title">
-      <string>Font</string>
-     </property>
-     <addaction name="actionLarger"/>
-    </widget>
-    <addaction name="menuFont"/>
+    <addaction name="actionZoom_In"/>
+    <addaction name="actionZoom_Out"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuAppearance"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="actionNew_Child"/>
+   <addaction name="separator"/>
+   <addaction name="actionNormal"/>
+   <addaction name="actionH1"/>
+   <addaction name="actionH2"/>
+   <addaction name="actionH3"/>
+   <addaction name="actionBold"/>
+   <addaction name="actionItalic"/>
+   <addaction name="actionInlineCode"/>
+   <addaction name="actionBullet"/>
+   <addaction name="actionNumbered"/>
+   <addaction name="actionImage"/>
+   <addaction name="actionLink"/>
+   <addaction name="actionBlockquote"/>
+   <addaction name="actionCodeblock"/>
+  </widget>
   <action name="actionSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/document-save.svg</normaloff>resources/actions/document-save.svg</iconset>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -130,8 +162,12 @@
    </property>
   </action>
   <action name="actionNew">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/document-new.svg</normaloff>resources/actions/document-new.svg</iconset>
+   </property>
    <property name="text">
-    <string>New</string>
+    <string>New Node</string>
    </property>
    <property name="statusTip">
     <string>Create a new markdown file in the project</string>
@@ -141,6 +177,10 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/edit-copy.svg</normaloff>resources/actions/edit-copy.svg</iconset>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
@@ -149,6 +189,10 @@
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/edit-paste.svg</normaloff>resources/actions/edit-paste.svg</iconset>
+   </property>
    <property name="text">
     <string>Paste</string>
    </property>
@@ -156,20 +200,200 @@
     <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actionLarger">
-   <property name="text">
-    <string>Larger</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl++</string>
-   </property>
-  </action>
   <action name="actionOpen_Project">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/document-open.svg</normaloff>resources/actions/document-open.svg</iconset>
+   </property>
    <property name="text">
     <string>Open Project</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionH1">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/h1.svg</normaloff>resources/gw/h1.svg</iconset>
+   </property>
+   <property name="text">
+    <string>H1</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionH2">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/h2.svg</normaloff>resources/gw/h2.svg</iconset>
+   </property>
+   <property name="text">
+    <string>H2</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionH3">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/h3.svg</normaloff>resources/gw/h3.svg</iconset>
+   </property>
+   <property name="text">
+    <string>H3</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+  </action>
+  <action name="actionInlineCode">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/codeinline.svg</normaloff>resources/gw/codeinline.svg</iconset>
+   </property>
+   <property name="text">
+    <string>InlineCode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionBold">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/bold.svg</normaloff>resources/gw/bold.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Bold</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionItalic">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/italic.svg</normaloff>resources/gw/italic.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Italic</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionZoom_In">
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionNormal">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/normal.svg</normaloff>resources/gw/normal.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Normal</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionNumbered">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/numbered.svg</normaloff>resources/gw/numbered.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Numbered</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionBullet">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/bullet.svg</normaloff>resources/gw/bullet.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Bullet</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionBlockquote">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/blockquote.svg</normaloff>resources/gw/blockquote.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Blockquote</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionCodeblock">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/codeblock.svg</normaloff>resources/gw/codeblock.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Codeblock</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionImage">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/image.svg</normaloff>resources/gw/image.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionLink">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/gw/link.svg</normaloff>resources/gw/link.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Link</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="actionNew_Child">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/actions/tab-new.svg</normaloff>resources/actions/tab-new.svg</iconset>
+   </property>
+   <property name="text">
+    <string>New Child Node</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
    </property>
   </action>
  </widget>

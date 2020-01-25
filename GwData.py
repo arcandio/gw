@@ -34,7 +34,7 @@ class GwData():
 			with open(self.openFilePath) as f:
 				print('open markdown file: ', self.openFilePath)
 				c = f.read()
-				self.app.text.md = c
-				self.app.text.mh()
+				self.app.parser.md = c
+				self.app.parser.mh()
 		except:
 			print('clicked a folder, not a file')

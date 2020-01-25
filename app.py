@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys, os
 # custom modules
-import GwConfig, GwText, GwData
+import GwConfig, GwText, GwData, GwParse
 
 # setup main window ui from designer file
 uifile = "test.ui"
@@ -26,7 +26,8 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		# set up a var for our last open path
 		self.openFilePath = ''
 		# set up text processing
-		self.text = GwText.GwParse(self)
+		self.parser = GwParse.GwParse(self)
+		self.text = GwText.GwText(self)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
