@@ -30,7 +30,7 @@ QTextDocumentFragment
 https://doc.qt.io/qt-5/richtext.html
 
 """
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 
 class GwText():
 	def __init__(self,app):
@@ -39,7 +39,18 @@ class GwText():
 		self.app.actionBold.triggered.connect(self.Bold)
 		# cannot use below, causes recursion, use key press instead
 		#self.app.textEdit.textChanged.connect(self.GetPara)
-		self.app.mainButton.clicked.connect(self.GetPara)
+		#self.app.textEdit.textChanged.connect(self.StartTimer)
+		self.app.refreshmd.clicked.connect(self.IntegrateMarkdown)
+		self.app.debug.clicked.connect(self.DebugSelected)
+		self.timer = QtCore.QTimer()
+
+	def StartTimer(self):
+		# This should be started by user keypress, which we don't have yet
+		self.timer.singleShot(1000, self.TimerTick)
+
+	def TimerTick(self):
+		print('timer tick')
+		self.IntegrateMarkdown()
 
 	def Bold(self):
 		print('makebold')
@@ -49,8 +60,7 @@ class GwText():
 		cur.mergeCharFormat(f)
 
 	def DebugSelected(self):
-		cur = self.app.textEdit.textCursor()
-		print('cursor.selectedText:', cur.selectedText())
+		self.app.textEdit.textCursor().setPosition(8)
 
 	def GetPara(self):
 		cur = self.app.textEdit.textCursor()
@@ -62,3 +72,18 @@ class GwText():
 		# Now try to replace the element in the cursor
 		cur.insertHtml(html)
 		
+	def IntegrateMarkdown(self):
+		# get the block / paragraph we're on
+		cur = self.app.textEdit.textCursor()
+		oldcur = cur.position()
+		print(oldcur)
+		cur.movePosition(QtGui.QTextCursor.StartOfBlock)
+		cur.movePosition(QtGui.QTextCursor.EndOfBlock, QtGui.QTextCursor.KeepAnchor)
+		# Now check to see if there might be markdown in the para
+		mdchar = ['*','`','_','[',']']
+		pt = cur.selectedText()
+		if any(ch in pt for ch in mdchar):
+			print('md found:', pt)
+			html = self.app.parser.ParseChunk(cur.selection())
+			cur.insertHtml(html)
+			self.app.textEdit.textCursor().setPosition(oldcur, QtGui.QTextCursor.MoveAnchor)

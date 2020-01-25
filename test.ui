@@ -33,14 +33,35 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
         <item>
-         <widget class="QPushButton" name="mainButton">
-          <property name="text">
-           <string>Breadcrumbs</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_4"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="breadcrumb">
+            <property name="text">
+             <string>Breadcrumbs</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="debug">
+            <property name="text">
+             <string>Debug</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="refreshmd">
+            <property name="text">
+             <string>refresh md</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTextEdit" name="textEdit"/>
