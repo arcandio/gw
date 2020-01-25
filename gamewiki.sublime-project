@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"build_systems":
+	[
+		{
+			"name": "gw python",
+			"shell_cmd": "python app.py"
+		}
+	]
+}

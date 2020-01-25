@@ -24,6 +24,9 @@ QTextCursor https://doc.qt.io/qt-5/qtextcursor.html
 QTextCharFormat
 	setFontWeight
 
+QTextDocumentFragment
+
+
 https://doc.qt.io/qt-5/richtext.html
 
 """
@@ -35,7 +38,7 @@ class GwText():
 		self.te = self.app.textEdit
 		self.app.actionBold.triggered.connect(self.Bold)
 		# cannot use below, causes recursion, use key press instead
-		self.app.textEdit.textChanged.connect(self.GetPara)
+		#self.app.textEdit.textChanged.connect(self.GetPara)
 		self.app.mainButton.clicked.connect(self.GetPara)
 
 	def Bold(self):
@@ -53,7 +56,9 @@ class GwText():
 		cur = self.app.textEdit.textCursor()
 		cur.movePosition(QtGui.QTextCursor.StartOfBlock)
 		cur.movePosition(QtGui.QTextCursor.EndOfBlock, QtGui.QTextCursor.KeepAnchor)
-		html = self.app.parser.ParseChunk(cur.selectedText())
-		print('cursor.selectedText:', cur.selectedText())
+		html = self.app.parser.ParseChunk(cur.selection())
+		print('cursor.selectedText:', cur.selection())
 		print('reconverted html:', html)
+		# Now try to replace the element in the cursor
+		cur.insertHtml(html)
 		
