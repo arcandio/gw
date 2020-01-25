@@ -30,11 +30,13 @@ class GwData():
 	def OpenMarkdownFile(self, signal):
 		self.openFilePath=self.app.model.filePath(signal)
 		# todo change this to a swtich case based on the type of file clicked
+		c = None
 		try:
 			with open(self.openFilePath) as f:
 				print('open markdown file: ', self.openFilePath)
 				c = f.read()
-				self.app.text.md = c
-				self.app.text.mh()
-		except:
-			print('clicked a folder, not a file')
+		except Exception as e:
+			print(e)
+		if c is not None:
+			self.app.parser.md = c
+			self.app.parser.mh()
