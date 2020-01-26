@@ -39,7 +39,7 @@ class GwText():
 		self.te = self.app.textEdit
 		self.app.actionBold.triggered.connect(self.Bold)
 		# cannot use below, causes recursion, use key press instead
-		#self.app.textEdit.textChanged.connect(self.GetPara)
+		self.app.textEdit.textChanged.connect(self.IntegrateMarkdown)
 		#self.app.textEdit.textChanged.connect(self.StartTimer)
 		self.app.refreshmd.clicked.connect(self.IntegrateMarkdown)
 		self.app.debug.clicked.connect(self.DebugSelected)
@@ -75,6 +75,7 @@ class GwText():
 		
 	def IntegrateMarkdown(self):
 		# get the block / paragraph we're on
+		self.app.textEdit.blockSignals(True)
 		cur = self.app.textEdit.textCursor()
 		print(cur.block())
 		oldcur = cur.position()
@@ -89,3 +90,4 @@ class GwText():
 			html = self.app.parser.ParseChunk(cur.selection())
 			cur.insertHtml(html)
 			self.app.textEdit.textCursor().setPosition(oldcur, QtGui.QTextCursor.MoveAnchor)
+		self.app.textEdit.blockSignals(False)
