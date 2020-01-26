@@ -9,6 +9,7 @@ QTextEdit https://doc.qt.io/qt-5/qtextedit.html
 QTextCursor https://doc.qt.io/qt-5/qtextcursor.html
 	selectedText
 	selection
+	block() > QTextBlock
 	deleteChar
 	deletePreviousChar
 	removeSelectedText
@@ -75,6 +76,7 @@ class GwText():
 	def IntegrateMarkdown(self):
 		# get the block / paragraph we're on
 		cur = self.app.textEdit.textCursor()
+		print(cur.block())
 		oldcur = cur.position()
 		print(oldcur)
 		cur.movePosition(QtGui.QTextCursor.StartOfBlock)

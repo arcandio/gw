@@ -1,5 +1,5 @@
-import markdown
-import html2markdown
+import markdown, html2markdown
+from pprint import pprint
 
 class GwParse():
 	def __init__(self, app):
@@ -15,11 +15,20 @@ class GwParse():
 		self.md = html2markdown.convert(html)
 
 	def ParseChunk(self, frag):
-		html = frag.toHtml()
-		md = html2markdown.convert(html)
-		html = markdown.markdown(md)
-		stripped = self.StripP(html)
+		#print(dir(frag))
+		ftg = frag.toHtml()
+		gth = self.CleanGarbage(ftg)
+		md = html2markdown.convert(gth)
+		mth = markdown.markdown(md)
+		stripped = self.StripP(mth)
 		return stripped
+
+	def CleanGarbage(self, garbage):
+		print(garbage)
+		html = garbage[222:-14]
+		#raise Exception('todo: cleanup garbage')
+		print(html)
+		return html
 
 	def StripP(self, html):
 		html = html.replace('<p>', '', 1)
