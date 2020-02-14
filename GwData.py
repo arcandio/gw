@@ -27,8 +27,12 @@ class GwData():
 		self.app.treeView_2.hideColumn(2)
 		self.app.treeView_2.hideColumn(3)
 
-	def OpenMarkdownFile(self, signal):
+	def OpenClickedFile(self, signal):
 		self.openFilePath=self.app.model.filePath(signal)
+		self.OpenMarkdownFile()
+	def OpenMarkdownFile(self, path = None):
+		if(path is not None):
+			self.openFilePath = path
 		# todo change this to a swtich case based on the type of file clicked
 		try:
 			with open(self.openFilePath) as f:

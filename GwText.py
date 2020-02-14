@@ -39,11 +39,13 @@ class GwText():
 		self.te = self.app.textEdit
 		self.app.actionBold.triggered.connect(self.Bold)
 		# cannot use below, causes recursion, use key press instead
-		self.app.textEdit.textChanged.connect(self.IntegrateMarkdown)
+		self.app.textEdit.keyReleaseEvent = self.IntegrateMarkdown
 		#self.app.textEdit.textChanged.connect(self.StartTimer)
 		self.app.refreshmd.clicked.connect(self.IntegrateMarkdown)
 		self.app.debug.clicked.connect(self.DebugSelected)
 		self.timer = QtCore.QTimer()
+		self.app.textEdit.mouseDoubleClickEvent = self.GoToCursorLink
+
 
 	def StartTimer(self):
 		# This should be started by user keypress, which we don't have yet
@@ -73,13 +75,13 @@ class GwText():
 		# Now try to replace the element in the cursor
 		cur.insertHtml(html)
 		
-	def IntegrateMarkdown(self):
+	def IntegrateMarkdown(self, event):
 		# get the block / paragraph we're on
 		self.app.textEdit.blockSignals(True)
 		cur = self.app.textEdit.textCursor()
-		print(cur.block())
+		#print(cur.block())
 		oldcur = cur.position()
-		print(oldcur)
+		#print(oldcur)
 		cur.movePosition(QtGui.QTextCursor.StartOfBlock)
 		cur.movePosition(QtGui.QTextCursor.EndOfBlock, QtGui.QTextCursor.KeepAnchor)
 		# Now check to see if there might be markdown in the para
@@ -91,3 +93,12 @@ class GwText():
 			cur.insertHtml(html)
 			self.app.textEdit.textCursor().setPosition(oldcur, QtGui.QTextCursor.MoveAnchor)
 		self.app.textEdit.blockSignals(False)
+
+	def GoToCursorLink(self, event):
+		cur = self.app.textEdit.textCursor()
+		anchor = self.app.textEdit.anchorAt(event.pos())
+		pp = self.app.model.rootPath()
+		fp = pp + "/" + anchor
+		# check if we're in or next to a link
+		print(fp)
+		self.app.data.OpenMarkdownFile(path=fp)

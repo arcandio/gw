@@ -36,7 +36,7 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
           <property name="topMargin">
            <number>5</number>
           </property>
@@ -58,6 +58,13 @@
            <widget class="QPushButton" name="refreshmd">
             <property name="text">
              <string>refresh md</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="goToLink">
+            <property name="text">
+             <string>Go To Link</string>
             </property>
            </widget>
           </item>

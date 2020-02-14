@@ -1,4 +1,4 @@
-import markdown, html2markdown
+import markdown, html2markdown, re
 from pprint import pprint
 
 class GwParse():
@@ -9,6 +9,7 @@ class GwParse():
 	def mh(self):
 		html = markdown.markdown(self.md)
 		self.app.textEdit.setText(html)
+		self.app.textBrowser.setText(html)
 	
 	def hm(self):
 		html = self.app.textEdit.toHtml()
@@ -24,10 +25,12 @@ class GwParse():
 		return stripped
 
 	def CleanGarbage(self, garbage):
-		print(garbage)
-		html = garbage[222:-14]
+		print('\nGarbage\n', garbage)
+		pat = r'(?<=<!--StartFragment-->)(.+)(?=<!--EndFragment-->)'
+		m = re.search(pat, garbage)
+		html = m.group(0)
 		#raise Exception('todo: cleanup garbage')
-		print(html)
+		print('\nCleaned\n',html)
 		return html
 
 	def StripP(self, html):

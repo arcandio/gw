@@ -1,3 +1,5 @@
 __pycache__/
 *.lnk
 *.sublime-workspace
+/build
+/dist

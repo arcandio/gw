@@ -22,7 +22,7 @@ class Wiki(QMainWindow, Ui_MainWindow):
 		self.actionOpen_Project.triggered.connect(self.data.OpenProjectDialog)
 		# initialize tree
 		self.data.SetProjectPath(self.config.LastProject)
-		self.treeView_2.clicked.connect(self.data.OpenMarkdownFile)
+		self.treeView_2.clicked.connect(self.data.OpenClickedFile)
 		# set up a var for our last open path
 		self.openFilePath = ''
 		# set up text processing
